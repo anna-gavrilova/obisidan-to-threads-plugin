@@ -33,6 +33,14 @@ export default class ThreadsPosterPlugin extends Plugin {
       callback: () => this.postSelectionAsThread(),
     });
 
+    this.addRibbonIcon(
+      "at-sign",
+      "Post selection to Threads",
+      () => {
+        this.postSelectionAsThread();
+    }
+);
+
     this.addSettingTab(new ThreadsPosterSettingTab(this.app, this));
   }
 
