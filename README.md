@@ -16,8 +16,7 @@ Post selected text to Threads as a single thread (root post + replies) with a co
 I am in process of creating a detailed video-walkthrough of obtaining your threads token.
 
 In the meanwhile, you can start here:
-- Threads API: authorization and tokens (Meta docs)  
-- Threads API: endpoints for posting (Meta docs)
+- [Threads API: authorization and tokens (Meta docs)](https://developers.facebook.com/docs/threads/get-started/)
 
 ## Usage
 
@@ -27,7 +26,7 @@ In the meanwhile, you can start here:
 
 ### Delimiter
 
-Default delimiter is `\n---\n`.
+Default delimiter is `---`.
 
 Example selection:
 
@@ -53,5 +52,3 @@ This is a hobby project that if completely free to use.
 However, if it has saved you any time and headache or enhanced your creative process, consider buying me a coffee. (Cappuccino on almond milk)
 
 [<img src="https://cdn.buymeacoffee.com/buttons/v2/arial-blue.png" alt="BuyMeACoffee" width="100">](https://buymeacoffee.com/metaformproject)
-
-- Buy me a coffee: **PASTE_YOUR_LINK_HERE**
