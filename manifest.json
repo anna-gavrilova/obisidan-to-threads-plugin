@@ -1,0 +1,10 @@
+{
+  "id": "threads-poster",
+  "name": "Threads Poster",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Post selected text to Threads.",
+  "author": "MetaformProject",
+  "authorUrl": "",
+  "isDesktopOnly": false
+}
