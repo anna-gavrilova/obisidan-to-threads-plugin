@@ -30,16 +30,18 @@ export default class ThreadsPosterPlugin extends Plugin {
     this.addCommand({
       id: "threads-post-selection-as-thread",
       name: "Post selection to Threads (as a thread)",
-      callback: () => this.postSelectionAsThread(),
+      callback: async () => {
+        await this.postSelectionAsThread();
+      },
     });
 
     this.addRibbonIcon(
       "at-sign",
       "Post selection to Threads",
       () => {
-        this.postSelectionAsThread();
-    }
-);
+        void this.postSelectionAsThread();
+      }
+    );
 
     this.addSettingTab(new ThreadsPosterSettingTab(this.app, this));
   }
@@ -73,7 +75,7 @@ export default class ThreadsPosterPlugin extends Plugin {
   private async postSelectionAsThread() {
     const sel = this.getActiveSelection();
     if (!sel) {
-      new Notice("No selection");
+      new Notice("No selection.");
       return;
     }
 
@@ -85,7 +87,7 @@ export default class ThreadsPosterPlugin extends Plugin {
 
     const parts = this.splitIntoParts(sel.text);
     if (parts.length === 0) {
-      new Notice("Nothing to post");
+      new Notice("Nothing to post.");
       return;
     }
 
@@ -126,10 +128,10 @@ export default class ThreadsPosterPlugin extends Plugin {
         await sleep(350);
       }
 
-      new Notice(`Posted thread: ${parts.length} post(s)`);
+      new Notice(`Posted thread: ${parts.length} post(s).`);
     } catch (err) {
       console.error(err);
-      new Notice(`Threads Poster failed: ${String(err)}`);
+      new Notice(`Threads Poster failed: ${String(err)}.`);
     }
   }
 
@@ -140,7 +142,7 @@ export default class ThreadsPosterPlugin extends Plugin {
       method: "GET",
     });
 
-    const json = safeJson(res.text);
+    const json = safeJson(res.text) as { id?: string; error?: unknown } | null;
     if (!json?.id) throw new Error(`Could not resolve Threads user id: ${res.text}`);
     return String(json.id);
   }
@@ -171,7 +173,7 @@ export default class ThreadsPosterPlugin extends Plugin {
       body: JSON.stringify(payload),
     });
 
-    const json = safeJson(res.text);
+    const json = safeJson(res.text) as { id?: string; error?: unknown } | null;
     if (!json?.id) throw new Error(`Create container failed: ${res.text}`);
     return String(json.id);
   }
@@ -194,7 +196,7 @@ export default class ThreadsPosterPlugin extends Plugin {
       }),
     });
 
-    const json = safeJson(res.text);
+    const json = safeJson(res.text) as { id?: string; error?: unknown } | null;
     if (json?.error) throw new Error(`Publish failed: ${res.text}`);
     if (!json?.id) throw new Error(`Publish did not return post id: ${res.text}`);
     return String(json.id);
@@ -213,7 +215,9 @@ class ThreadsPosterSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Threads Poster" });
+    new Setting(containerEl)
+      .setName("Threads poster")
+      .setHeading();
 
     new Setting(containerEl)
       .setName("Threads access token")
@@ -222,7 +226,7 @@ class ThreadsPosterSettingTab extends PluginSettingTab {
         text
           .setPlaceholder("EAAB…")
           .setValue(this.plugin.settings.threadsAccessToken)
-          .onChange(async (value) => {
+          .onChange(async (value: string) => {
             this.plugin.settings.threadsAccessToken = value.trim();
             await this.plugin.saveSettings();
           })
@@ -235,7 +239,7 @@ class ThreadsPosterSettingTab extends PluginSettingTab {
         text
           .setPlaceholder("\\n---\\n")
           .setValue(this.plugin.settings.delimiter)
-          .onChange(async (value) => {
+          .onChange(async (value: string) => {
             this.plugin.settings.delimiter = value;
             await this.plugin.saveSettings();
           })
@@ -243,9 +247,9 @@ class ThreadsPosterSettingTab extends PluginSettingTab {
   }
 }
 
-function safeJson(text: string): any {
+function safeJson(text: string): unknown {
   try {
-    return JSON.parse(text);
+    return JSON.parse(text) as unknown;
   } catch {
     return null;
   }
