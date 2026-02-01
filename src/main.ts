@@ -29,7 +29,7 @@ export default class ThreadsPosterPlugin extends Plugin {
 
     this.addCommand({
       id: "threads-post-selection-as-thread",
-      name: "Post selection to Threads (as a thread)",
+      name: "Post selection to threads (as a thread).",
       callback: async () => {
         await this.postSelectionAsThread();
       },
@@ -37,7 +37,7 @@ export default class ThreadsPosterPlugin extends Plugin {
 
     this.addRibbonIcon(
       "at-sign",
-      "Post selection to Threads",
+      "Post selection to threads.",
       () => {
         void this.postSelectionAsThread();
       }
@@ -215,15 +215,13 @@ class ThreadsPosterSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    new Setting(containerEl)
-      .setName("Threads poster")
-      .setHeading();
 
     new Setting(containerEl)
       .setName("Threads access token")
-      .setDesc("Long-lived Threads user access token (you generate it yourself).")
+      .setDesc("Long-lived threads user access token. You generate it yourself.")
       .addText((text) =>
         text
+      // eslint-disable-next-line obsidianmd/ui/sentence-case
           .setPlaceholder("EAAB…")
           .setValue(this.plugin.settings.threadsAccessToken)
           .onChange(async (value: string) => {
