@@ -221,7 +221,7 @@ class ThreadsPosterSettingTab extends PluginSettingTab {
       .setDesc("Long-lived threads user access token. You generate it yourself.")
       .addText((text) =>
         text
-      // eslint-disable-next-line obsidianmd/ui/sentence-case
+      // eslint-disable-next-line obsidianmd/ui/sentence-case -- use placeholder as is to follow the token format
           .setPlaceholder("EAAB…")
           .setValue(this.plugin.settings.threadsAccessToken)
           .onChange(async (value: string) => {
